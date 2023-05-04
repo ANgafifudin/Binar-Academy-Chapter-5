@@ -14,8 +14,6 @@ DELETE /books/:id: Menghapus buku dengan ID tertentu.
 User Endpoints
 POST /register: Mendaftarkan akun baru.
 POST /login: Melakukan proses login dan menghasilkan token JWT.
-
-Yang belum. 
 GET /users: Menampilkan seluruh data user.
 GET /users/:id: Menampilkan data user dengan ID tertentu.
 PUT /users/:id: Mengubah data user dengan ID tertentu.
