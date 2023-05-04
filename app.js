@@ -43,6 +43,64 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// user
+app.get('/users', authenticateToken, async (req, res) => {
+	try {
+		if(req.user.role !== 'superadmin') {
+			return res.status(403).json({error: 'Forbidden'});
+		}
+		const users = await User.findAll()
+		return res.status(200).json({data: users})
+	} catch(error) {
+		return res.status(500).json({error: 'Internal server error'})
+	}
+})
+
+app.get('/users/:id', authenticateToken, async (req, res) => {
+	try {
+		if(req.user.role !== 'superadmin') {
+			return res.status(403).json({error: 'Forbidden'});
+		}
+		const user = await User.findByPk(req.params.id)
+		return res.status(200).json({data: user})
+	} catch(error) {
+		return res.status(500).json({error: 'Internal server error'})
+	}
+})
+
+app.put('/users/:id', authenticateToken, async (req, res) => {
+	try {
+		if(req.user.role !== 'superadmin') {
+			return res.status(403).json({error: 'Forbidden'});
+		}
+		const updatedUser = await User.update(req.body, {
+			where: {
+				id: req.params.id
+			}
+		})
+		return res.status(200).json({data: updatedUser})
+	} catch(error) {
+		return res.status(500).json({error: 'Internal server error'})
+	}
+})
+
+app.delete('/users/:id', authenticateToken, async (req, res) => {
+	try {
+		if(req.user.role !== 'superadmin') {
+			return res.status(403).json({error: 'Forbidden'});
+		}
+		const status = await User.destroy({
+			where: {
+				id: req.params.id
+			}
+		})
+		return res.status(200).json({status})
+	} catch(error) {
+		return res.status(500).json({error: 'Internal server error'})
+	}
+})
+// user
+
 app.get('/books', async (req, res) => {
   try {
     const books = await Book.findAll();
